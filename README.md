@@ -1,6 +1,6 @@
 <img src="./.assets/christmas_ferris.png" width="164">
 
-# 🎄 Advent of Code {year}
+# 🎄 Advent of Code 2024
 
 Solutions for [Advent of Code](https://adventofcode.com/) in [Rust](https://www.rust-lang.org/).
 
@@ -9,6 +9,11 @@ Solutions for [Advent of Code](https://adventofcode.com/) in [Rust](https://www.
 <!--- benchmarking table --->
 
 ---
+
+# Original template
+
+This repository uses [fspoettel/advent-of-code-rust](https://github.com/fspoettel/advent-of-code-rust) as a template. Below is the original README content.
+
 
 ## Template setup
 
@@ -49,7 +54,7 @@ cargo scaffold <day>
 
 Individual solutions live in the `./src/bin/` directory as separate binaries. _Inputs_ and _examples_ live in the the `./data` directory.
 
-Every [solution](https://github.com/fspoettel/advent-of-code-rust/blob/main/src/template.txt) has _tests_ referencing its _example_ file in `./data/examples`. Use these tests to develop and debug your solutions against the example input. In VS Code, `rust-analyzer` will display buttons for running / debugging these unit tests above the unit test blocks.
+Every [solution](src/template.txt) has _tests_ referencing its _example_ file in `./data/examples`. Use these tests to develop and debug your solutions against the example input. In VS Code, `rust-analyzer` will display buttons for running / debugging these unit tests above the unit test blocks.
 
 > [!TIP]
 > If a day has multiple example inputs, you can use the `read_file_part()` helper in your tests instead of `read_file()`. If this e.g. applies to day 1, you can create a second example file `01-2.txt` and invoke the helper like `let result = part_two(&advent_of_code::template::read_file_part("examples", DAY, 2));`. This supports an arbitrary number of example files.
@@ -220,7 +225,7 @@ cargo clippy
 1. Install [`aoc-cli`](https://github.com/scarvalhojr/aoc-cli/) via cargo: `cargo install aoc-cli --version 0.12.0`
 2. Create the file `<home_directory>/.adventofcode.session` and paste your session cookie into it. To retrieve the session cookie, press F12 anywhere on the Advent of Code website to open your browser developer tools. Look in _Cookies_ under the _Application_ or _Storage_ tab, and copy out the `session` cookie value. [^1]
 
-Once installed, you can use the [download command](#download-input--description-for-a-day), the read command, and automatically submit solutions via the [`--submit` flag](#submitting-solutions).
+Once installed, you can use the [download command](#-download-input-for-a-day), the read command, and automatically submit solutions via the [`--submit` flag](#submitting-solutions).
 
 ### Automatically track ⭐️ progress in the readme
 
