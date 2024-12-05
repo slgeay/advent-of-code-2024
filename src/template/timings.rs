@@ -31,9 +31,7 @@ impl Timings {
 
     /// Rehydrate timings from a JSON file. If not present, returns empty timings.
     pub fn read_from_file() -> Self {
-        let s = fs::read_to_string(TIMINGS_FILE_PATH)
-            .map_err(|x| x.to_string())
-            .and_then(Timings::try_from);
+        let s = fs::read_to_string(TIMINGS_FILE_PATH).map_err(|x| x.to_string()).and_then(Timings::try_from);
 
         match s {
             Ok(timings) => timings,
@@ -68,9 +66,7 @@ impl Timings {
     }
 
     pub fn is_day_complete(&self, day: Day) -> bool {
-        self.data
-            .iter()
-            .any(|t| t.day == day && t.part_1.is_some() && t.part_2.is_some())
+        self.data.iter().any(|t| t.day == day && t.part_1.is_some() && t.part_2.is_some())
     }
 }
 
@@ -80,10 +76,7 @@ impl From<Timings> for JsonValue {
     fn from(value: Timings) -> Self {
         let mut map: HashMap<String, JsonValue> = HashMap::new();
 
-        map.insert(
-            "data".into(),
-            JsonValue::Array(value.data.iter().map(JsonValue::from).collect()),
-        );
+        map.insert("data".into(), JsonValue::Array(value.data.iter().map(JsonValue::from).collect()));
 
         JsonValue::Object(map)
     }
@@ -104,10 +97,7 @@ impl TryFrom<String> for Timings {
             .ok_or("expected `json.data` to be an array.")?;
 
         Ok(Timings {
-            data: json_data
-                .iter()
-                .map(Timing::try_from)
-                .collect::<Result<_, _>>()?,
+            data: json_data.iter().map(Timing::try_from).collect::<Result<_, _>>()?,
         })
     }
 }
@@ -148,9 +138,7 @@ impl TryFrom<&JsonValue> for Timing {
     type Error = String;
 
     fn try_from(value: &JsonValue) -> Result<Self, Self::Error> {
-        let json = value
-            .get::<HashMap<String, JsonValue>>()
-            .ok_or("Expected timing to be a JSON object.")?;
+        let json = value.get::<HashMap<String, JsonValue>>().ok_or("Expected timing to be a JSON object.")?;
 
         let day = json
             .get("day")

@@ -13,33 +13,29 @@ pub fn run_multi(days_to_run: &HashSet<Day>, is_release: bool, is_timed: bool) -
     let mut need_space = false;
 
     // NOTE: use non-duplicate, sorted day values.
-    all_days()
-        .filter(|day| days_to_run.contains(day))
-        .for_each(|day| {
-            if need_space {
-                println!();
-            }
-            need_space = true;
+    all_days().filter(|day| days_to_run.contains(day)).for_each(|day| {
+        if need_space {
+            println!();
+        }
+        need_space = true;
 
-            println!("{ANSI_BOLD}Day {day}{ANSI_RESET}");
-            println!("------");
+        println!("{ANSI_BOLD}Day {day}{ANSI_RESET}");
+        println!("------");
 
-            let output = child_commands::run_solution(day, is_timed, is_release).unwrap();
+        let output = child_commands::run_solution(day, is_timed, is_release).unwrap();
 
-            if output.is_empty() {
-                println!("Not solved.");
-            } else {
-                let val = child_commands::parse_exec_time(&output, day);
-                timings.push(val);
-            }
-        });
+        if output.is_empty() {
+            println!("Not solved.");
+        } else {
+            let val = child_commands::parse_exec_time(&output, day);
+            timings.push(val);
+        }
+    });
 
     if is_timed {
         let timings = Timings { data: timings };
         let total_millis = timings.total_millis();
-        println!(
-            "\n{ANSI_BOLD}Total (Run):{ANSI_RESET} {ANSI_ITALIC}{total_millis:.2}ms{ANSI_RESET}"
-        );
+        println!("\n{ANSI_BOLD}Total (Run):{ANSI_RESET} {ANSI_ITALIC}{total_millis:.2}ms{ANSI_RESET}");
         Some(timings)
     } else {
         None
@@ -99,11 +95,7 @@ pub mod child_commands {
         // spawn child command with piped stdout/stderr.
         // forward output to stdout/stderr while grabbing stdout lines.
 
-        let mut cmd = Command::new("cargo")
-            .args(&args)
-            .stdout(Stdio::piped())
-            .stderr(Stdio::piped())
-            .spawn()?;
+        let mut cmd = Command::new("cargo").args(&args).stdout(Stdio::piped()).stderr(Stdio::piped()).spawn()?;
 
         let stdout = BufReader::new(cmd.stdout.take().ok_or(super::Error::BrokenPipe)?);
         let stderr = BufReader::new(cmd.stderr.take().ok_or(super::Error::BrokenPipe)?);
@@ -170,14 +162,7 @@ pub mod child_commands {
 
     fn parse_time(line: &str) -> Option<(&str, f64)> {
         // for possible time formats, see: https://github.com/rust-lang/rust/blob/1.64.0/library/core/src/time.rs#L1176-L1200
-        let str_timing = line
-            .split(" samples)")
-            .next()?
-            .split('(')
-            .last()?
-            .split('@')
-            .next()?
-            .trim();
+        let str_timing = line.split(" samples)").next()?.split('(').last()?.split('@').next()?.trim();
 
         let parsed_timing = match str_timing {
             s if s.contains("ns") => s.split("ns").next()?.parse::<f64>().ok(),
@@ -194,12 +179,7 @@ pub mod child_commands {
     macro_rules! assert_approx_eq {
         ($a:expr, $b:expr) => {{
             let (a, b) = (&$a, &$b);
-            assert!(
-                (*a - *b).abs() < 1.0e-6,
-                "{} is not approximately equal to {}",
-                *a,
-                *b
-            );
+            assert!((*a - *b).abs() < 1.0e-6, "{} is not approximately equal to {}", *a, *b);
         }};
     }
 
@@ -241,14 +221,7 @@ pub mod child_commands {
 
         #[test]
         fn parses_missing_parts() {
-            let res = parse_exec_time(
-                &[
-                    "Part 1: ✖        ".into(),
-                    "Part 2: ✖        ".into(),
-                    "".into(),
-                ],
-                day!(1),
-            );
+            let res = parse_exec_time(&["Part 1: ✖        ".into(), "Part 2: ✖        ".into(), "".into()], day!(1));
             assert_approx_eq!(res.total_nanos, 0_f64);
             assert_eq!(res.part_1.is_none(), true);
             assert_eq!(res.part_2.is_none(), true);

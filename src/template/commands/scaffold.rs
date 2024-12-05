@@ -6,8 +6,7 @@ use std::{
 
 use crate::template::Day;
 
-const MODULE_TEMPLATE: &str =
-    include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/src/template.txt"));
+const MODULE_TEMPLATE: &str = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/src/template.txt"));
 
 fn safe_create_file(path: &str, overwrite: bool) -> Result<File, std::io::Error> {
     let mut file = OpenOptions::new();
@@ -20,11 +19,7 @@ fn safe_create_file(path: &str, overwrite: bool) -> Result<File, std::io::Error>
 }
 
 fn create_file(path: &str) -> Result<File, std::io::Error> {
-    OpenOptions::new()
-        .write(true)
-        .create(true)
-        .truncate(true)
-        .open(path)
+    OpenOptions::new().write(true).create(true).truncate(true).open(path)
 }
 
 pub fn handle(day: Day, overwrite: bool) {
@@ -40,11 +35,7 @@ pub fn handle(day: Day, overwrite: bool) {
         }
     };
 
-    match file.write_all(
-        MODULE_TEMPLATE
-            .replace("%DAY_NUMBER%", &day.into_inner().to_string())
-            .as_bytes(),
-    ) {
+    match file.write_all(MODULE_TEMPLATE.replace("%DAY_NUMBER%", &day.into_inner().to_string()).as_bytes()) {
         Ok(()) => {
             println!("Created module file \"{}\"", &module_path);
         }

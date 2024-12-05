@@ -34,9 +34,7 @@ fn locate_table(readme: &str) -> Result<TablePosition, Error> {
     let matches: Vec<_> = readme.match_indices(MARKER).collect();
 
     if matches.len() > 2 {
-        return Err(Error::Parser(
-            "{}: too many occurences of marker in README.".into(),
-        ));
+        return Err(Error::Parser("{}: too many occurences of marker in README.".into()));
     }
 
     let pos_start = matches

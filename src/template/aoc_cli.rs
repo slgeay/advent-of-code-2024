@@ -26,25 +26,14 @@ impl Display for AocCommandError {
 }
 
 pub fn check() -> Result<(), AocCommandError> {
-    Command::new("aoc")
-        .arg("-V")
-        .output()
-        .map_err(|_| AocCommandError::CommandNotFound)?;
+    Command::new("aoc").arg("-V").output().map_err(|_| AocCommandError::CommandNotFound)?;
     Ok(())
 }
 
 pub fn read(day: Day) -> Result<Output, AocCommandError> {
     let puzzle_path = get_puzzle_path(day);
 
-    let args = build_args(
-        "read",
-        &[
-            "--description-only".into(),
-            "--puzzle-file".into(),
-            puzzle_path,
-        ],
-        day,
-    );
+    let args = build_args("read", &["--description-only".into(), "--puzzle-file".into(), puzzle_path], day);
 
     call_aoc_cli(&args)
 }

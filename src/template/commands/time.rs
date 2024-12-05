@@ -13,9 +13,7 @@ pub fn handle(day: Option<Day>, run_all: bool, store: bool) {
                 all_days().collect()
             } else {
                 // when the `--all` flag is not set, filter out days that are fully benched.
-                all_days()
-                    .filter(|day| !stored_timings.is_day_complete(*day))
-                    .collect()
+                all_days().filter(|day| !stored_timings.is_day_complete(*day)).collect()
             }
         },
         |day| HashSet::from([day]),

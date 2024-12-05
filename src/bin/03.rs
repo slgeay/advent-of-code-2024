@@ -2,10 +2,12 @@ use regex::Regex;
 
 advent_of_code::solution!(3);
 
+#[rustfmt::skip]
 pub fn part_one(i: &str) -> Option<u32> {
     Some(Regex::new(r"mul\((\d+),(\d+)\)").unwrap().captures_iter(i).map(|c|{c.iter().map(|x|x.unwrap().as_str().parse::<u32>().unwrap_or(1)).product::<u32>()}).sum())
 }
 
+#[rustfmt::skip]
 pub fn part_two(i: &str) -> Option<u32> {
     Some(Regex::new(r"mul\((\d+),(\d+)\)").unwrap().captures_iter(&Regex::new(r"(?s)don't\(\).*?do\(\)").unwrap().replace_all(i,"")).map(|c|{c.iter().map(|x|x.unwrap().as_str().parse::<u32>().unwrap_or(1)).product::<u32>()}).sum())
 }

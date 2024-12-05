@@ -11,13 +11,7 @@ pub fn part_one(input: &str) -> Option<u32> {
 
     left_list.sort();
     right_list.sort();
-    Some(
-        left_list
-            .iter()
-            .zip(right_list.iter())
-            .map(|(left, right)| left.abs_diff(*right))
-            .sum::<u32>(),
-    )
+    Some(left_list.iter().zip(right_list.iter()).map(|(left, right)| left.abs_diff(*right)).sum::<u32>())
 }
 
 pub fn part_two(input: &str) -> Option<u32> {
