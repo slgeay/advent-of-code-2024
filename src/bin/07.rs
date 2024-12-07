@@ -24,7 +24,7 @@ pub fn part_one(i: &str) -> Option<u64> {
                         if current.1 == total {
                             return total;
                         }
-                    } else {
+                    } else if current.1 < total {
                         let (a, b) = (current.1, numbers[current.0]);
                         fns.iter().for_each(|fn_| {
                             queue.push_back((current.0 + 1, fn_(a, b)));
@@ -59,7 +59,7 @@ pub fn part_two(i: &str) -> Option<u64> {
                         if current.1 == total {
                             return total;
                         }
-                    } else {
+                    } else if current.1 < total {
                         let (a, b) = (current.1, numbers[current.0]);
                         fns.iter().for_each(|fn_| {
                             queue.push_back((current.0 + 1, fn_(a, b)));
