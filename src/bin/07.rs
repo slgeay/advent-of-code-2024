@@ -4,28 +4,31 @@ advent_of_code::solution!(7);
 
 pub fn part_one(i: &str) -> Option<u64> {
     let lines = i.lines().collect::<Vec<_>>();
+    let fns = vec![
+        |a: u64, b: u64| a + b,
+        |a: u64, b: u64| a * b,
+    ];
     Some(
         lines
             .iter()
             .map(|l| {
                 let (total, expr) = l.split_once(": ").unwrap();
                 let total = total.parse().unwrap();
-                let numbers = expr.split(" ").map(|e| e.parse().unwrap()).collect();
-                let mut queue: VecDeque<VecDeque<u64>> = VecDeque::new();
-                queue.push_back(numbers);
+                let numbers = expr.split(" ").map(|e| e.parse().unwrap()).collect::<Vec<u64>>();
+                let length = numbers.len();
+                let mut queue: VecDeque<(usize, u64)> = VecDeque::new();
+                queue.push_back((1, numbers[0]));
                 while !queue.is_empty() {
-                    let mut numbers = queue.pop_front().unwrap();
-                    if numbers.len() == 1 {
-                        if numbers.pop_front().unwrap() == total {
+                    let current = queue.pop_front().unwrap();
+                    if current.0 == length {
+                        if current.1 == total {
                             return total;
                         }
                     } else {
-                        let (a, b) = (numbers.pop_front().unwrap(), numbers.pop_front().unwrap());
-                        let mut mul_numbers = numbers.clone();
-                        mul_numbers.push_front(a * b);
-                        queue.push_front(mul_numbers);
-                        numbers.push_front(a + b);
-                        queue.push_front(numbers);
+                        let (a, b) = (current.1, numbers[current.0]);
+                        fns.iter().for_each(|fn_| {
+                            queue.push_back((current.0 + 1, fn_(a, b)));
+                        })
                     }
                 }
                 0
@@ -33,34 +36,34 @@ pub fn part_one(i: &str) -> Option<u64> {
             .sum(),
     )
 }
-
 pub fn part_two(i: &str) -> Option<u64> {
     let lines = i.lines().collect::<Vec<_>>();
+    let fns = vec![
+        |a: u64, b: u64| a + b,
+        |a: u64, b: u64| a * b,
+        |a: u64, b: u64| (a.to_string() + &b.to_string()).parse().unwrap(),
+    ];
     Some(
         lines
             .iter()
             .map(|l| {
                 let (total, expr) = l.split_once(": ").unwrap();
                 let total = total.parse().unwrap();
-                let numbers = expr.split(" ").map(|e| e.parse().unwrap()).collect();
-                let mut queue: VecDeque<VecDeque<u64>> = VecDeque::new();
-                queue.push_back(numbers);
+                let numbers = expr.split(" ").map(|e| e.parse().unwrap()).collect::<Vec<u64>>();
+                let length = numbers.len();
+                let mut queue: VecDeque<(usize, u64)> = VecDeque::new();
+                queue.push_back((1, numbers[0]));
                 while !queue.is_empty() {
-                    let mut numbers = queue.pop_front().unwrap();
-                    if numbers.len() == 1 {
-                        if numbers.pop_front().unwrap() == total {
+                    let current = queue.pop_front().unwrap();
+                    if current.0 == length {
+                        if current.1 == total {
                             return total;
                         }
                     } else {
-                        let (a, b) = (numbers.pop_front().unwrap(), numbers.pop_front().unwrap());
-                        let mut mul_numbers = numbers.clone();
-                        let mut cat_numbers = numbers.clone();
-                        cat_numbers.push_front((a.to_string() + &b.to_string()).parse().unwrap());
-                        queue.push_front(cat_numbers);
-                        mul_numbers.push_front(a * b);
-                        queue.push_front(mul_numbers);
-                        numbers.push_front(a + b);
-                        queue.push_front(numbers);
+                        let (a, b) = (current.1, numbers[current.0]);
+                        fns.iter().for_each(|fn_| {
+                            queue.push_back((current.0 + 1, fn_(a, b)));
+                        })
                     }
                 }
                 0
