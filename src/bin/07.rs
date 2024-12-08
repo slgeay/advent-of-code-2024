@@ -35,9 +35,11 @@ pub fn part_one(i: &str) -> Option<u64> {
 }
 pub fn part_two(i: &str) -> Option<u64> {
     let lines = i.lines().collect::<Vec<_>>();
-    let fns = [|a: u64, b: u64| a + b, |a: u64, b: u64| a * b, |a: u64, b: u64| {
-        (a.to_string() + &b.to_string()).parse().unwrap()
-    }];
+    let fns = [
+        |a: u64, b: u64| a + b,
+        |a: u64, b: u64| a * b,
+        |a: u64, b: u64| (a.to_string() + &b.to_string()).parse().unwrap(),
+    ];
     Some(
         lines
             .iter()
