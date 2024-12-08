@@ -53,7 +53,7 @@ pub fn part_two(input: &str) -> Option<u32> {
         v.iter().enumerate().for_each(|(i, (x1, y1))| {
             v.iter().skip(i + 1).for_each(|(x2, y2)| {
                 for (mut p, d) in [((*x1, *y1), (x1 - x2, y1 - y2)), ((*x2, *y2), (x2 - x1, y2 - y1))] {
-                    while (0..w).contains(&p.0) && (0..h).contains(&p.1) {
+                    while (0..w - 1).contains(&p.0) && (0..h).contains(&p.1) {
                         res.insert(p);
                         p = (p.0 + d.0, p.1 + d.1);
                     }
