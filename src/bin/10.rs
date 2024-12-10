@@ -3,8 +3,8 @@ use std::collections::HashSet;
 advent_of_code::solution!(10);
 
 pub fn solution<T>(input: &str) -> Option<u64>
-    where T: FromIterator<(usize, usize)> + IntoIterator<Item = (usize, usize)> + Clone,
-
+where
+    T: FromIterator<(usize, usize)> + IntoIterator<Item = (usize, usize)> + Clone,
 {
     let w = input.find('\n').unwrap() + 1;
 
