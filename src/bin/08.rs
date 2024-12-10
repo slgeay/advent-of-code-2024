@@ -58,7 +58,6 @@ pub fn part_two(input: &str) -> Option<u32> {
                         p = (p.0 + d.0, p.1 + d.1);
                     }
                 }
-
             });
         });
     });
