@@ -52,6 +52,23 @@ pub fn part_one(input: &str) -> Option<u64> {
     Some(quadrants.iter().product::<u64>())
 }
 
+const DISPLAY : bool = false;
+macro_rules! print {
+    ($($arg:tt)*) => {
+        if DISPLAY {
+            std::print!($($arg)*);
+        }
+    };
+}
+
+macro_rules! println {
+    ($($arg:tt)*) => {
+        if DISPLAY {
+            std::println!($($arg)*);
+        }
+    };
+}
+
 pub fn part_two(input: &str) -> Option<u64> {
     let mut robots = input
         .lines()
