@@ -52,7 +52,7 @@ pub fn part_one(input: &str) -> Option<u64> {
     Some(quadrants.iter().product::<u64>())
 }
 
-const DISPLAY : bool = false;
+const DISPLAY: bool = false;
 macro_rules! print {
     ($($arg:tt)*) => {
         if DISPLAY {
